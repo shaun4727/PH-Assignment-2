@@ -40,3 +40,6 @@ given below -
     3. DATABASE_URL (provide mongodb connection string with database name)
 4. run npm install
 5. npm run build ( run this command)
+6. npm start (to start the server locally)
+
+Now, project setup is done. Hit the api described above to get the expected result.
