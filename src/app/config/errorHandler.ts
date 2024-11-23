@@ -4,7 +4,7 @@ export const ErrorHandler = (err: any) => {
     if (err.issues && err.issues[0].code === 'invalid_type') {
         const titles = err.issues?.map((item: Issue) => item.path.toString());
 
-        return { statusCode: 400, message: titles.toString() + ' is required' }; // Bad Request
+        return { statusCode: 400, message: `${titles.toString()} invalid or not given` }; // Bad Request
         // return { statusCode: 400, message: err.issues[0].message }; // Bad Request
     }
 
