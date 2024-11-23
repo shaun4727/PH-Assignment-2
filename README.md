@@ -26,3 +26,5 @@ this api will place an order and update book collection.
 # GET: /api/orders/revenue
 
 this api will calculate total revenue by multiplying quantity and price.
+
+# instruction to setup the project locally

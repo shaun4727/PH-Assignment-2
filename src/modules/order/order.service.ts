@@ -31,18 +31,33 @@ const totalRevenue = async () => {
                 from: 'books', // The collection name for the books model
                 localField: 'product',
                 foreignField: '_id',
-                as: 'productDetails'
+                as: 'prodDetail'
             }
         },
         {
-            $unwind: '$productDetails' // Flatten the array from $lookup
+            $unwind: '$prodDetail' // Flatten the array from $lookup
         },
         {
             $group: {
                 _id: null, // Group all orders together
                 totalRevenue: {
-                    $sum: { $multiply: ['$quantity', '$productDetails.price'] } // Calculate revenue per order
+                    $sum: { $multiply: ['$quantity', '$prodDetail.price'] } // Calculate revenue per order
                 }
+            }
+        }
+    ]);
+
+    return result;
+};
+
+const checkJson = async () => {
+    const result = await OrderModel.aggregate([
+        {
+            $lookup: {
+                from: 'books', // The collection name for the books model
+                localField: 'product',
+                foreignField: '_id',
+                as: 'prodDetail'
             }
         }
     ]);
@@ -52,5 +67,6 @@ const totalRevenue = async () => {
 
 export const OrderServices = {
     orderBookFromDB,
-    totalRevenue
+    totalRevenue,
+    checkJson
 };
