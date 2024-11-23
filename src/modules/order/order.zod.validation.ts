@@ -4,13 +4,23 @@ import type { ObjectId } from 'bson';
 
 // Zod validation schema for the Order
 export const orderValidationSchema = z.object({
-    email: z.string().email('Invalid email format'), // Email validation
+    email: z
+        .string({
+            required_error: 'Email is required'
+        })
+        .email('Invalid email format'), // Email validation
     product: z.custom<ObjectId>(),
     quantity: z
-        .number()
+        .number({
+            required_error: 'Quantity is required'
+        })
         .min(1, { message: 'Quantity must be greater than 0' }) // Ensure quantity is a positive integer
         .int('Quantity must be an integer'), // Ensure quantity is an integer
-    totalPrice: z.number().min(0, { message: 'Total Price must be a positive number' }) // Ensure totalPrice is a positive number
+    totalPrice: z
+        .number({
+            required_error: 'Total Price is required'
+        })
+        .min(0, { message: 'Total Price must be a positive number' }) // Ensure totalPrice is a positive number
 });
 
 export type OrderValidation = z.infer<typeof orderValidationSchema>;

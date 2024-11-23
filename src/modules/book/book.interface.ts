@@ -7,3 +7,11 @@ export type Book = {
     quantity: number;
     inStock: boolean;
 };
+
+export type Issue = {
+    code: string;
+    expected: string;
+    received: string;
+    path: string[];
+    message: string;
+};

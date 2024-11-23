@@ -1,7 +1,11 @@
+import { Issue } from '../../modules/book/book.interface';
+
 export const ErrorHandler = (err: any) => {
-    console.log(err);
     if (err.issues && err.issues[0].code === 'invalid_type') {
-        return { statusCode: 400, message: err.issues[0].message }; // Bad Request
+        const titles = err.issues?.map((item: Issue) => item.path.toString());
+
+        return { statusCode: 400, message: titles.toString() + ' is required' }; // Bad Request
+        // return { statusCode: 400, message: err.issues[0].message }; // Bad Request
     }
 
     if (err.name === 'CastError') {
@@ -14,6 +18,10 @@ export const ErrorHandler = (err: any) => {
 
     if (err.code === 11000) {
         return { statusCode: 409, message: 'Duplicate key error' }; // Conflict
+    }
+
+    if (err.errors.product) {
+        return { statusCode: 400, message: err.message };
     }
 
     return { statusCode: 500, message: 'Internal Server Error' }; // Default
