@@ -38,7 +38,7 @@ given below -
     1. PORT (in which port you want to run the project)
     2. HOSTNAME (provide a hostname like '127.0.0.1')
     3. DATABASE_URL (provide mongodb connection string with database name)
-4. run npm install
+4. npm install (run this command)
 5. npm run build ( run this command)
 6. npm start (to start the server locally)
 
