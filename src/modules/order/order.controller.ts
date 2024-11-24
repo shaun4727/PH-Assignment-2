@@ -6,7 +6,7 @@ import { ErrorHandler, NotFoundError } from '../../app/config/errorHandler';
 const createOrder = async (req: Request, res: Response) => {
     try {
         const order = req.body;
-        const parsedData = orderValidationSchema.parse(order);
+        const parsedData = await orderValidationSchema.parseAsync(order);
 
         const result = await OrderServices.orderBookFromDB(parsedData);
 

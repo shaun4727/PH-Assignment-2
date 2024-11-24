@@ -1,20 +1,7 @@
 import { z } from 'zod';
 
-// import type { ObjectId } from 'bson';
 import { Types } from 'mongoose';
-
-// validate object id
-
-const iSValidObjectId = (objectId: unknown): boolean => {
-    const objIdString = String(objectId);
-    if (objIdString.length !== 24) {
-        return false;
-    }
-    if (Types.ObjectId.isValid(objIdString)) {
-        return true;
-    }
-    return false;
-};
+import { BookModel } from '../book/book.model';
 
 // Zod validation schema for the Order
 export const orderValidationSchema = z.object({
@@ -23,9 +10,16 @@ export const orderValidationSchema = z.object({
             required_error: 'Email is required'
         })
         .email('Invalid email format'), // Email validation
-    product: z.custom<Types.ObjectId>((val) => iSValidObjectId(val), {
-        message: 'Not a valid ObjectId'
-    }),
+    product: z.custom<Types.ObjectId>().refine(
+        async (val) => {
+            const bookId = await BookModel.findById(val).exec();
+
+            return !!bookId;
+        },
+        {
+            message: 'Book ID does not exist'
+        }
+    ),
     quantity: z
         .number({
             required_error: 'Quantity is required'
@@ -38,5 +32,3 @@ export const orderValidationSchema = z.object({
         })
         .min(0, { message: 'Total Price must be a positive number' }) // Ensure totalPrice is a positive number
 });
-
-export type OrderValidation = z.infer<typeof orderValidationSchema>;
