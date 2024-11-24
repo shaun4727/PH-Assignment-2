@@ -1,10 +1,10 @@
 import { Issue } from '../../modules/book/book.interface';
 
 export const ErrorHandler = (err: any) => {
-    if (err.issues && err.issues[0].code === 'invalid_type') {
-        const titles = err.issues?.map((item: Issue) => item.path.toString());
+    if (err.issues) {
+        const titles = err.issues?.map((item: Issue) => `${item.path.toString()} ${item.message}`);
 
-        return { statusCode: 400, message: `${titles.toString()} invalid or not given` }; // Bad Request
+        return { statusCode: 400, message: `${titles.toString()}` }; // Bad Request
         // return { statusCode: 400, message: err.issues[0].message }; // Bad Request
     }
 
